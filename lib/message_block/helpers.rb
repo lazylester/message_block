@@ -43,11 +43,16 @@ module MessageBlock
         "<ul class=\"#{type}\">" + flash_messages[type.to_sym].map {|message| "<li>#{message}</li>" }.join + "</ul>"
       end.join
 
-      if options[:container]
-        content_tag(options[:container], contents, options[:html], false)
+      if contents.blank?
+        content_tag(options[:container], "", options[:html]) # need to put a div.message_block for javascript flash messages
       else
-        contents
+        if options[:container]
+          content_tag(options[:container], contents, options[:html], false)
+        else
+          contents
+        end
       end
+
     end
 
     def flash_from_template(type, template, locals)
